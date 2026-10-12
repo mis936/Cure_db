@@ -5,9 +5,9 @@ import * as XLSX from "xlsx";
 import { FIELDS } from "../lib/schema";
 import { useStore } from "../lib/store";
 
-export default function ExportModal({ source, onClose }) {
+export default function ExportModal({ source, rows: rowsOverride, onClose }) {
   const { firstEntry, master } = useStore();
-  const rows = source === "master" ? master : firstEntry;
+  const rows = rowsOverride ?? (source === "master" ? master : firstEntry);
 
   const [headerMap, setHeaderMap] = useState(() => {
     const m = {};

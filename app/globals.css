@@ -232,6 +232,45 @@ select {
   font-family: "JetBrains Mono", monospace;
 }
 
+/* ---------- Filter bar (Master Data) ---------- */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.filter-select {
+  font-size: 12.5px;
+  padding: 6px 8px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  max-width: 160px;
+}
+
+.filter-search {
+  font-size: 12.5px;
+  padding: 6px 10px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--ink);
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+}
+
+.filter-search:focus,
+.filter-select:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: -1px;
+}
+
 /* ---------- Grid ---------- */
 
 .grid-wrap {

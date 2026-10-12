@@ -61,6 +61,18 @@ export default function Page() {
         </span>
       </div>
 
+      <div className="sheet-tabs">
+        {TABS.map((t) => (
+          <button
+            key={t.key}
+            className={`sheet-tab ${tab === t.key ? "active" : ""}`}
+            onClick={() => setTab(t.key)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
       <div className="main">
         {connected === false && (
           <div className="banner banner-warn">
@@ -89,18 +101,6 @@ export default function Page() {
 
         {tab === "master" && <MasterGrid />}
         {tab === "range" && <RangeManager />}
-      </div>
-
-      <div className="sheet-tabs">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            className={`sheet-tab ${tab === t.key ? "active" : ""}`}
-            onClick={() => setTab(t.key)}
-          >
-            {t.label}
-          </button>
-        ))}
       </div>
 
       {showImport && <ImportModal onClose={() => setShowImport(false)} />}

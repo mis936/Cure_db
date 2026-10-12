@@ -417,14 +417,14 @@ table.grid {
   z-index: 3;
 }
 
-/* ---------- Sheet tabs (bottom, Excel-style) ---------- */
+/* ---------- Sheet tabs (top, Excel-style, always visible) ---------- */
 
 .sheet-tabs {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 2px;
   padding: 0 28px;
-  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
   background: #efece2;
   flex-shrink: 0;
 }
@@ -434,12 +434,12 @@ table.grid {
   font-weight: 500;
   padding: 9px 18px;
   border: 1px solid transparent;
-  border-bottom: none;
+  border-top: none;
   background: transparent;
   color: var(--ink-soft);
   cursor: pointer;
-  border-radius: 4px 4px 0 0;
-  margin-bottom: -1px;
+  border-radius: 0 0 4px 4px;
+  margin-top: -1px;
 }
 
 .sheet-tab:hover {
@@ -450,7 +450,7 @@ table.grid {
   background: var(--panel);
   color: var(--ink);
   border-color: var(--rule-strong);
-  border-bottom: 1px solid var(--panel);
+  border-top: 1px solid var(--panel);
   font-weight: 600;
 }
 

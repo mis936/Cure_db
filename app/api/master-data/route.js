@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { FIELD_KEYS, sheetRowToEntry, entryToSheetRow } from "../../../lib/schema";
 import { readSheetRows, appendSheetRows, TAB_MASTER } from "../../../lib/sheetsClient";
 
+// Always run per request. Next 14 would otherwise try to cache GET handlers at build time.
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const raw = await readSheetRows(TAB_MASTER, FIELD_KEYS.length);

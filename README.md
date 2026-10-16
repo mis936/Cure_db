@@ -73,6 +73,13 @@ Copy `.env.example` to `.env.local` for local development and fill in:
 
 `.env.local` is git-ignored — never commit real credentials.
 
+**No env file is uploaded to Vercel.** `.env` and `.env.local` stay on your computer. Vercel only
+reads variables entered in its dashboard (Project → Settings → Environment Variables). Tip: Vercel
+lets you paste a whole `.env` block into the Key field and fills all three rows at once.
+For all three variables select the **Production, Preview and Development** environments.
+Paste the key without surrounding quotes if you type it in the dashboard (the app tolerates quotes
+either way).
+
 ## 4. Run locally
 
 ```bash
@@ -94,6 +101,36 @@ the UI regardless.
 4. Deploy (or redeploy, if you added the env vars after the first deploy — env var changes need a
    redeploy to take effect).
 
+## 6. Verify the deployment
+
+Open `https://YOUR-APP.vercel.app/api/health`. It never shows secret values. It reports:
+
+- which of the three environment variables exist in this deployment (all must be `true`), and
+- for each tab (First Entry, Master Data, Range), whether the tab exists with the exact fixed
+  header row. Any mismatch is listed by column.
+
+`"ok": true` means the frontend and the Google Sheet are connected. Then open the app: the
+top-right should read **Connected to Google Sheets**.
+
+Common fixes: share the sheet with the service account email as Editor; rename tabs exactly;
+redeploy after changing environment variables.
+
+## 7. Optional: Google Apps Script (`google-apps-script/Code.gs`)
+
+Sheet-side helpers that run inside the spreadsheet itself:
+
+1. Open the spreadsheet → **Extensions → Apps Script**, paste `Code.gs`, save, reload the sheet.
+   (To set the Asia/Kolkata time zone, enable **Project Settings → Show appsscript.json** and
+   paste `appsscript.json`.)
+2. Use the new **Sales Ledger** menu: *Set up tabs and headers* creates the three tabs with the
+   fixed header rows and adds dropdowns on First Entry fed by the Range tab.
+3. *Turn on automatic month-end archive* installs a trigger that, on the 1st of each month, moves
+   every filled First Entry row into Master Data and clears First Entry. This covers the
+   "remove old data from First Entry at the end of every month" requirement without a server.
+4. Typing a Date directly in the sheet fills Month and Year beside it.
+
+The app works without this script. Authorise it once when Google asks.
+
 ## Notes / things to confirm
 
 - **Autosave, not row-locking.** Edits save on a short debounce or the explicit Save button. If
@@ -102,5 +139,8 @@ the UI regardless.
   need to edit simultaneously and we can add row-level locking or real-time sync.
 - **"Total Costing"** is a manual field here, matching the brief exactly — say if you'd rather it
   auto-calculate as Cost × Qty.
-- **Month-end reset** is a manual button (no server to run a cron job against without adding a
-  Vercel Cron Job). Ask if you'd like that automated — it's a small addition once this is live.
+- **Month-end reset** can be done from the app (Start new month button) or automatically with the
+  Apps Script trigger in step 7. Use one or both; running either on an already-empty First Entry
+  does nothing harmful.
+- **After your first local `npm install`**, commit the generated `package-lock.json` so Vercel
+  installs the exact same dependency versions every build.

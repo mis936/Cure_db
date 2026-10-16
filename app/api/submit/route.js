@@ -17,6 +17,9 @@ import {
   TAB_RANGE,
 } from "../../../lib/sheetsClient";
 
+// Always run per request. Next 14 would otherwise try to cache GET handlers at build time.
+export const dynamic = "force-dynamic";
+
 // Reads whatever is currently in the First Entry sheet (the sheet is the source
 // of truth — the client autosaves to it before calling this), archives every
 // filled row into Master Data, grows any combo-field Range lists with new typed

@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { FIELD_KEYS, sheetRowToEntry, entryToSheetRow, emptyRows } from "../../../lib/schema";
 import { readSheetRows, writeSheetRows, TAB_FIRST_ENTRY } from "../../../lib/sheetsClient";
 
+// Always run per request. Next 14 would otherwise try to cache GET handlers at build time.
+export const dynamic = "force-dynamic";
+
 // GET: current First Entry sheet contents (falls back to a fresh batch of blank
 // rows if the sheet's data body is empty).
 export async function GET() {

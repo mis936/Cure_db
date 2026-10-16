@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { RANGE_LIST_KEYS } from "../../../lib/schema";
 import { readSheetRows, writeColumn, TAB_RANGE } from "../../../lib/sheetsClient";
 
+// Always run per request. Next 14 would otherwise try to cache GET handlers at build time.
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const raw = await readSheetRows(TAB_RANGE, RANGE_LIST_KEYS.length);
